@@ -1,6 +1,6 @@
 import type * as z from "zod";
 
-import { Environment, type EnvironmentType } from "./environment";
+import { type BaseUrls, Environment, type EnvironmentType } from "./environment";
 import { AccountException, ClientException, NetworkException } from "./exception";
 import {
   type CardRequest,
@@ -27,9 +27,14 @@ export class Client {
   private readonly credential: Credential;
   private readonly env: Environment;
 
-  constructor(merchant: string, token: string, env: EnvironmentType = "dev") {
+  constructor(
+    merchant: string,
+    token: string,
+    env: EnvironmentType = "dev",
+    baseUrls: BaseUrls = {},
+  ) {
     this.credential = CredentialSchema.parse({ merchant, token });
-    this.env = new Environment(env);
+    this.env = new Environment(env, baseUrls);
   }
 
   async mobile(request: MobileRequest): Promise<MobileResponse> {

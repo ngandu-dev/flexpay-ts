@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2
+
+### Patch Changes
+
+- Add optional `apiBaseUrl` and `cardBaseUrl` prefixes to the Client constructor and Environment helper. Preserve existing sandbox/production defaults, normalize trailing slashes, validate HTTP(S) endpoints, and export the `BaseUrls` options type for local integration testing.
+
 All notable changes to `@ngandu-dev/flexpay` are documented in this file. This project follows
 [Semantic Versioning](https://semver.org/).
 

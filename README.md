@@ -13,7 +13,7 @@ For credentials and implementation details, contact [FlexPay](https://flexpay.cd
 
 - Typed mobile-money and card payment requests
 - Transaction status checks and callback validation
-- Development and production API environments
+- Development and production API environments with optional custom base URLs
 - ESM and CommonJS distributions with TypeScript declarations
 
 ## Requirements
@@ -43,6 +43,26 @@ import { Client as Flexpay } from "@ngandu-dev/flexpay";
 
 const flexpay = new Flexpay("merchant_code", "token", "dev"); // use "prod" for production
 ```
+
+### Local simulator or custom endpoints
+
+Pass optional versioned prefixes as the fourth constructor argument:
+
+```ts
+const flexpay = new Flexpay("TESTMERCHANT", "test-token", "dev", {
+  apiBaseUrl: "http://localhost:8080/api/rest/v1",
+  cardBaseUrl: "http://localhost:8080/v1.1",
+});
+```
+
+`apiBaseUrl` is shared by mobile payments, payouts, and status checks; the client appends
+`/paymentService`, `/merchantPayOutService`, or `/check/{orderNumber}`. `cardBaseUrl` gets `/pay`
+appended. Include the version path in each prefix, and omit the final service path.
+Trailing slashes are removed. Each omitted option keeps its selected `dev`/`prod` default,
+so existing constructor calls continue to work. Overrides must be absolute HTTP(S) URLs without
+credentials, query strings, or fragments; invalid values throw during construction.
+The optional `BaseUrls` type is exported from the package root. `Environment` also accepts these
+options as its second argument when generating endpoint URLs directly.
 
 ## Usage
 

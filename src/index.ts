@@ -1,5 +1,5 @@
 export { Client } from "./client";
-export { Environment, type EnvironmentType } from "./environment";
+export { type BaseUrls, Environment, type EnvironmentType } from "./environment";
 export * from "./exception";
 export type {
   CardRequest,

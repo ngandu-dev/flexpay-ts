@@ -1,6 +1,7 @@
 import { describe, expect, expectTypeOf, it } from "vitest";
 
 import type {
+  BaseUrls,
   CardRequest,
   CardResponse,
   CheckResponse,
@@ -51,6 +52,7 @@ describe("public API", () => {
   it("exports the public TypeScript vocabulary", () => {
     expectTypeOf<Currency>().toEqualTypeOf<"USD" | "CDF">();
     expectTypeOf<EnvironmentType>().toEqualTypeOf<"prod" | "dev">();
+    expectTypeOf<BaseUrls>().toEqualTypeOf<{ apiBaseUrl?: string; cardBaseUrl?: string }>();
 
     expectTypeOf<CardRequest>().toBeObject();
     expectTypeOf<CardResponse>().toBeObject();

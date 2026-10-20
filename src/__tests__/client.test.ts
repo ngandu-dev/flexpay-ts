@@ -385,6 +385,61 @@ describe("Client", () => {
     expect(prodClient).toBeInstanceOf(Client);
   });
 
+  it("sends every operation to custom base URLs with the normal transport", async () => {
+    const local = new Client("MERCHANT", "token", "prod", {
+      apiBaseUrl: "http://localhost:8080/api/rest/v1/",
+      cardBaseUrl: "http://localhost:8080/v1.1///",
+    });
+    const mobile = {
+      amount: 10,
+      callbackUrl: "http://localhost:9000/callback",
+      currency: "USD" as const,
+      phone: "243810000001",
+      reference: "local-test",
+    };
+    mockFetchWithResponse(loadFixture("mobile_success.json"));
+    await local.mobile(mobile);
+    expect(fetch).toHaveBeenCalledWith(
+      "http://localhost:8080/api/rest/v1/paymentService",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({ Authorization: "Bearer token" }),
+      }),
+    );
+    mockFetchWithResponse(loadFixture("payout_success.json"));
+    await local.payout(mobile);
+    expect(fetch).toHaveBeenCalledWith(
+      "http://localhost:8080/api/rest/v1/merchantPayOutService",
+      expect.objectContaining({ method: "POST" }),
+    );
+    mockFetchWithResponse(loadFixture("check_success.json"));
+    await local.check("order/with spaces?x=#");
+    expect(fetch).toHaveBeenCalledWith(
+      "http://localhost:8080/api/rest/v1/check/order%2Fwith%20spaces%3Fx%3D%23",
+      expect.objectContaining({ method: "GET" }),
+    );
+    mockFetchWithResponse(loadFixture("card_success.json"));
+    await local.card({
+      ...mobile,
+      description: "Local checkout",
+      approveUrl: "http://localhost/approve",
+      declineUrl: "http://localhost/decline",
+      cancelUrl: "http://localhost/cancel",
+      homeUrl: "http://localhost/",
+    });
+    expect(fetch).toHaveBeenCalledWith(
+      "http://localhost:8080/v1.1/pay",
+      expect.objectContaining({ method: "POST" }),
+    );
+  });
+
+  it("validates base URLs when constructing the client", () => {
+    expect(() => new Client("MERCHANT", "token", "dev", { apiBaseUrl: "" })).toThrow("Base URLs");
+    expect(
+      () => new Client("MERCHANT", "token", "dev", { cardBaseUrl: "ftp://localhost" }),
+    ).toThrow("Base URLs");
+  });
+
   it("should create client with default development environment", () => {
     const devClient = new Client("MERCHANT", "token");
     expect(devClient).toBeInstanceOf(Client);
