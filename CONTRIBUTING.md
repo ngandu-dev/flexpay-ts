@@ -46,7 +46,7 @@ Run `bun run version` to apply pending Changesets, then commit the version and c
 Push a tag matching the committed package version, such as `v2.0.0`, `2.0.0`, or
 `@ngandu-dev/flexpay@2.0.0`.
 
-The `release.yml` workflow validates the package, publishes to npm using the configured trusted
+The `release.yml` workflow runs quality checks, tests, and a dependency audit before it publishes to npm using the configured trusted
 publisher, and creates a GitHub release with generated notes. Prerelease tags are excluded from automatic releases; handle prereleases manually. Existing npm versions are skipped on retries. Manual retries must select the release tag.
 
 ## Commits

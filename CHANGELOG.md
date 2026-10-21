@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.5
+
+### Patch Changes
+
+- Update the locked dependency graph to patched development tools and require quality checks, tests, and a security audit to pass before publishing stable tags.
+
 ## 2.0.4
 
 ### Patch Changes

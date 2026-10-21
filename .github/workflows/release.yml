@@ -40,7 +40,10 @@ jobs:
           bun-version: latest
       - run: npm install --global npm@latest
       - run: bun install --frozen-lockfile
-      - run: bun run quality
+      - name: Run quality checks and tests
+        run: bun run quality
+      - name: Audit locked dependencies
+        run: bun audit
       - name: Validate package version against tag
         env:
           RELEASE_TAG: ${{ github.ref_name }}
