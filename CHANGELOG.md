@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.4
+
+### Patch Changes
+
+- Update the package repository metadata to ngandu-dev/flexpay-ts after the GitHub repository rename so publishing metadata matches the workflow repository.
+
 ## 2.0.3
 
 ### Patch Changes
