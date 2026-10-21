@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.3
+
+### Patch Changes
+
+- 64926c2: Update the locked development dependencies shell-quote to 1.11.0 and source-map-js to 1.2.2 to address GHSA-pqg4-j6r4-53mv and GHSA-68fv-2mgg-jv7q. Preserve the existing dependency ranges and runtime API.
+- Run release automation on stable tag pushes, publish npm packages through trusted publishing, and create GitHub releases with generated notes. Leave prereleases to manual publishing.
+
 ## 2.0.2
 
 ### Patch Changes
